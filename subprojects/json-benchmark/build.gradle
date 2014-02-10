@@ -1,0 +1,26 @@
+
+dependencies {
+    compile project(':')
+    groovy project(':')
+    compile project(':groovy-json')
+
+    testCompile project(':groovy-ant')
+
+    compile 'org.openjdk.jmh:jmh-core:0.2'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
+    compile 'org.boon:boon:0.4'
+}
+
+task(runBenchmark, dependsOn: 'compileJava', type: JavaExec) {
+    main = 'org.openjdk.jmh.Main'
+    classpath = sourceSets.main.runtimeClasspath
+    args 'groovy.json.Benchmark.*',  '-f', '1'
+}
+
+repositories {
+    maven {
+        name 'Boon'
+        url 'http://richardhightower.github.io/site/releases/mvn/repo/'
+    }
+}
